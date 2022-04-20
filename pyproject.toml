@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "odd-ml"
+version = "0.1.0"
+description = ""
+authors = ["Pavel Mackarichev <vixtir90@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^1.8.2"
+requests = "^2.27.1"
+prettytable = "^3.2.0"
+ipython = "^8.2.0"
+black = "^22.3.0"
+odd-models = "^1.0.20"
+boto3 = "^1.21.42"
+pandas = "^1.4.2"
+s3path = "^0.3.4"
+pyarrow = "^7.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+ipykernel = "^6.13.0"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
