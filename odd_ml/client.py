@@ -1,5 +1,6 @@
 import json
-from typing import TypeVar, Type, List, Optional
+from typing import Tuple, TypeVar, Type, List, Optional
+from pydantic.env_settings import SettingsSourceCallable
 
 import boto3
 import pandas
@@ -27,6 +28,16 @@ class AwsConfig(BaseSettings):
     def __str__(self) -> str:
         return f"Region: {self.aws_region}, key: ***, id: ***"
 
+    class Config:
+        @classmethod
+        def customise_sources(
+            cls,
+            init_settings: SettingsSourceCallable,
+            env_settings: SettingsSourceCallable,
+            file_secret_settings: SettingsSourceCallable,
+        ) -> Tuple[SettingsSourceCallable, ...]:
+            return env_settings, init_settings
+
 
 class Client:
     def __init__(self, platform_url, aws_config: AwsConfig):
@@ -53,12 +64,12 @@ class Client:
         )
 
     def __get_search_id(self, query: str, datasource_id: int = None) -> str:
+        filters = SearchFormDataFilters()
+
         if datasource_id is not None:
-            filters = SearchFormDataFilters(
-                datasource=[SearchFilterState(entityId=datasource_id, selected=True)]
-            )
-        else:
-            filters = {}
+            filters.datasources = [
+                SearchFilterState(entity_id=datasource_id, selected=True)
+            ]
 
         data = SearchFormData(
             query=query,
@@ -88,17 +99,6 @@ class Client:
     def get_data_entity_by_id(self, id: int):
         return self.__get(f"{self.platform_url}/api/dataentities/{id}", DataEntity)
 
-    @staticmethod
-    def __find_s3_uri(xs: List[MetadataFiled]) -> Optional[str]:
-        filtered = [x.value for x in xs if x.field.name == "Uri"]
-
-        if (length := len(filtered)) == 0:
-            raise ValueError("Could not find Uri in metadata")
-        elif length > 1:
-            raise ValueError("Found more than one metadata with field Uri")
-        else:
-            return filtered[0]
-
     def __read_file(self, s3_uri: str):
         storage_options = {
             "key": self.aws_settings.aws_access_key_id,
@@ -126,12 +126,23 @@ class Client:
             files = (file_path for file_path in path.iterdir())
             return self.__read_file(next(files).as_uri())
         else:
-            raise ValueError("Error")
+            raise ValueError("Unsupported path format")
 
     def get_dataframe(self, de: DataEntity):
         s3_uri = self.__find_s3_uri(de.metadata_field_values)
 
         return self.__read_path(s3_uri)
+
+    @staticmethod
+    def __find_s3_uri(xs: List[MetadataFiled]) -> Optional[str]:
+        filtered = [x.value for x in xs if x.field.name == "Uri"]
+
+        if (length := len(filtered)) == 0:
+            raise ValueError("Could not find Uri in metadata")
+        elif length > 1:
+            raise ValueError("Found more than one metadata with field Uri")
+        else:
+            return filtered[0]
 
     @staticmethod
     def __get(url, cls: Type[T]) -> T:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "odd-ml"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Pavel Mackarichev <vixtir90@gmail.com>"]
 
@@ -15,7 +15,8 @@ odd-models = "^1.0.20"
 boto3 = "^1.21.42"
 pandas = "^1.4.2"
 s3path = "^0.3.4"
-pyarrow = "^7.0.0"
+pyarrow = "^6.0.1"
+python-dotenv = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

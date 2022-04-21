@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class SearchFilterState(BaseModel):
-    entityId: int
-    entityName: Optional[str]
+    entity_id: int
+    entity_name: Optional[str]
     selected: bool
 
 
@@ -21,7 +21,7 @@ class SearchFormDataFilters(BaseModel):
 
 class SearchFormData(BaseModel):
     query: Optional[str]
-    myObjects: Optional[str]
+    my_objects: Optional[str]
     filters: SearchFormDataFilters
 
 
@@ -41,6 +41,6 @@ class SearchResult(BaseModel):
     def show_table(self):
         tbl = PrettyTable()
         tbl.align = "r"
-        tbl.field_names = ["Id", "Name", "Oddrn"]
-        tbl.add_rows([[i.id, i.external_name, i.oddrn] for i in self.items])
+        tbl.field_names = ["Id", "Name"]
+        tbl.add_rows([[i.id, i.external_name] for i in self.items])
         print(tbl)
