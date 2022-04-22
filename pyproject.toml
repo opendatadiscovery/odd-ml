@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "odd-ml"
-version = "0.4.0"
+version = "0.4.1"
 description = ""
 authors = ["Pavel Makarichev <vixtir90@gmail.com>"]
 

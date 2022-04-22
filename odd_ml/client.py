@@ -21,8 +21,8 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class AwsConfig(BaseSettings):
-    aws_secret_access_key: Optional[SecretStr]
-    aws_access_key_id: Optional[SecretStr]
+    aws_secret_access_key: Optional[str]
+    aws_access_key_id: Optional[str]
     aws_region: str
 
     class Config:
