@@ -36,6 +36,23 @@ class Relative(BaseModel):
         return ", ".join([ec.name for ec in self.entity_classes])
 
 
+class Owner(BaseModel):
+    id: int
+    name: str
+
+
+class Role(BaseModel):
+    id: int
+    name: str
+
+
+class EntityOwner(BaseModel):
+    id: int
+    owner: Owner
+    role: Role
+    data_entity_id: int
+
+
 class DataEntity(BaseModel):
     id: int
     oddrn: str
@@ -43,6 +60,17 @@ class DataEntity(BaseModel):
     metadata_field_values: List[MetadataFiled]
     source_list: Optional[List[Relative]] = []
     target_list: Optional[List[Relative]] = []
+    ownership: List[EntityOwner] = []
+
+    def show_owners(self):
+        tbl = PrettyTable()
+        tbl.field_names = ["Name", "Role"]
+        tbl.align = "l"
+
+        rows = [[o.owner.name, o.role.name] for o in self.ownership]
+
+        tbl.add_rows(rows)
+        print(tbl)
 
     def show_metadata(self):
         tbl = PrettyTable()

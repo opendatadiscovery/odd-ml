@@ -5,7 +5,7 @@ from pydantic.env_settings import SettingsSourceCallable
 import boto3
 import pandas
 import requests
-from pydantic import BaseModel, BaseSettings
+from pydantic import BaseModel, BaseSettings, SecretStr
 from s3path import S3Path
 
 from odd_ml.domain.data_entity import DataEntity, MetadataFiled
@@ -21,12 +21,9 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class AwsConfig(BaseSettings):
-    aws_secret_access_key: Optional[str]
-    aws_access_key_id: Optional[str]
+    aws_secret_access_key: Optional[SecretStr]
+    aws_access_key_id: Optional[SecretStr]
     aws_region: str
-
-    def __str__(self) -> str:
-        return f"Region: {self.aws_region}, key: ***, id: ***"
 
     class Config:
         @classmethod

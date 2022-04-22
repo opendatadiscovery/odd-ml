@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "odd-ml"
-version = "0.3.0"
+version = "0.4.0"
 description = ""
-authors = ["Pavel Mackarichev <vixtir90@gmail.com>"]
+authors = ["Pavel Makarichev <vixtir90@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
