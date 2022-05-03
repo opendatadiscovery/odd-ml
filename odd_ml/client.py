@@ -192,7 +192,8 @@ class Client:
     def __find_s3_uri(xs: List[MetadataFiled]) -> Optional[str]:
         filtered = [x.value for x in xs if x.field.name == "Uri"]
 
-        if (length := len(filtered)) == 0:
+        length = len(filtered)
+        if length == 0:
             raise ValueError("Could not find Uri in metadata")
         elif length > 1:
             raise ValueError("Found more than one metadata with field Uri")
