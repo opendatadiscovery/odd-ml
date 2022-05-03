@@ -36,9 +36,16 @@ class SearchResultItem(BaseModel):
 
 
 class SearchResult(BaseModel):
+    """Response from ODD platform /search endpoint
+
+    Args:
+        items: (list of str) - list of result items
+    """
+
     items: List[SearchResultItem]
 
     def show_table(self):
+        """Show items list as a table"""
         tbl = PrettyTable()
         tbl.align = "r"
         tbl.field_names = ["Id", "Name"]
