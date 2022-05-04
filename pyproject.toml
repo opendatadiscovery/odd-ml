@@ -1,8 +1,13 @@
 [tool.poetry]
 name = "odd-ml"
-version = "0.5.1"
-description = "SDK for working with pipelines from notebooks"
-authors = ["Pavel Makarichev <vixtir90@gmail.com>"]
+version = "0.5.2"
+license='Apache-2.0'
+description = "SDK for working with pipeline's metadata from notebooks"
+authors = ["Open Data Discovery <pypi@opendatadiscovery.org>"]
+maintainers=[ "Pavel Makarichev <vixtir90@gmail.com>"]
+readme='README.md'
+homepage='https://opendatadiscovery.org/'
+keywords=['odd','open data discovery', 'metadata', 'machine learning']
 
 [tool.poetry.dependencies]
 python = "^3.8.12"
