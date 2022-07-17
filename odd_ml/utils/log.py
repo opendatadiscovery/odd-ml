@@ -1,11 +1,11 @@
 import functools
+import logging
 
 
 def log(func):
+    @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        print(
-            f"Function {func.__name__} with args { ', '.join([arg for arg in args ]) }"
-        )
+        logging.info(f"Function {func.__name__} with args {', '.join(list(args))}")
         return func(*args, **kwargs)
 
     return wrapper
