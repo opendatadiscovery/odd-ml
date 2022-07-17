@@ -1,5 +1,5 @@
 from typing import Optional, Tuple
-from pydantic import BaseSettings
+from pydantic import BaseSettings, SecretStr
 from pydantic.env_settings import SettingsSourceCallable
 
 
@@ -26,8 +26,8 @@ class AwsConfig(BaseSettings):
 
     """
 
-    aws_secret_access_key: Optional[str]
-    aws_access_key_id: Optional[str]
+    aws_secret_access_key: Optional[SecretStr]
+    aws_access_key_id: Optional[SecretStr]
     aws_region: Optional[str]
 
     class Config:
@@ -38,4 +38,4 @@ class AwsConfig(BaseSettings):
             env_settings: SettingsSourceCallable,
             file_secret_settings: SettingsSourceCallable,
         ) -> Tuple[SettingsSourceCallable, ...]:
-            return env_settings, init_settings
+            return file_secret_settings, init_settings, env_settings

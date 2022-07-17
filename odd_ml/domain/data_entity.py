@@ -1,7 +1,10 @@
+import datetime
 from typing import Any, List, Optional
 
-from prettytable import PrettyTable
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from odd_ml.helpers.asci_renderer import show_table
+from .data_source import DataSource
 
 
 class Field(BaseModel):
@@ -50,61 +53,84 @@ class EntityOwner(BaseModel):
     id: int
     owner: Owner
     role: Role
-    data_entity_id: int
+
+
+class DataEntityTag(BaseModel):
+    id: int
+    name: str
+
+
+class DataEntityType(BaseModel):
+    id: int
+    name: str
+
+
+class DataEntityClass(BaseModel):
+    id: int
+    name: str
+    types: List[DataEntityType]
 
 
 class DataEntity(BaseModel):
     id: int
     oddrn: str
     external_name: str
+    internal_name: Optional[str]
+    ownership: Optional[List[EntityOwner]] = []
+    data_source: DataSource
+    entity_classes: List[DataEntityClass]
+    type: DataEntityType
+    tags: List[DataEntityTag]
+    created_at: Optional[datetime.datetime]
+    updated_at: Optional[datetime.datetime]
     metadata_field_values: List[MetadataFiled]
     source_list: Optional[List[Relative]] = []
     target_list: Optional[List[Relative]] = []
-    ownership: List[EntityOwner] = []
 
-    def show_owners(self):
-        tbl = PrettyTable()
-        tbl.field_names = ["Name", "Role"]
-        tbl.align = "l"
+    @property
+    def entity_class_names(self) -> str:
+        return [c.name for c in self.entity_classes]
 
-        rows = [[o.owner.name, o.role.name] for o in self.ownership]
+    def show_details(self):
+        field_names = ["Field", "Value"]
 
-        tbl.add_rows(rows)
-        print(tbl)
+        rows = [
+            ["id", self.id],
+            ["name", self.internal_name or self.external_name],
+            ["oddrn", self.oddrn],
+            ["type", self.type.name],
+            ["entity types", ",".join(self.entity_class_names)],
+            ["tags", ", ".join(tag.name for tag in self.tags)],
+            [
+                "owners",
+                ", ".join(
+                    f"{o.owner.name} [{o.role.name}]" for o in self.ownership or []
+                ),
+            ],
+        ]
+
+        show_table(field_names, rows, "Details")
+        self.show_metadata()
+        self.show_relatives()
 
     def show_metadata(self):
-        tbl = PrettyTable()
-        tbl.field_names = ["Name", "Value"]
-        tbl.align = "l"
-
         rows = [[v.field.name, v.value] for v in self.metadata_field_values]
-
-        tbl.add_rows(rows)
-        print(tbl)
+        show_table(["Field", "Value"], rows, "Metadata")
 
     def show_relatives(self):
-        print("Sources")
-        print(self.__sources_tbl())
+        field_names = ["Id", "Name", "Class"]
 
-        print("Targets")
-        print(self.__targets_tbl())
+        show_table(field_names, self.__sources_tbl(), "Sources")
+        show_table(field_names, self.__targets_tbl(), "Targets")
 
     def __sources_tbl(self):
-        tbl = PrettyTable()
-        return self.__relative_table(self.source_list, tbl)
+        return self.__relative_rows(self.source_list)
 
     def __targets_tbl(self):
-        tbl = PrettyTable()
-        return self.__relative_table(self.target_list, tbl)
+        return self.__relative_rows(self.target_list)
 
     @staticmethod
-    def __relative_table(data: List[Relative], tbl: PrettyTable = None):
-        if tbl is None:
-            tbl = PrettyTable()
-
-        tbl.field_names = ["Id", "Name", "Class"]
-        rows = [[rel.id, rel.name, rel.entity_classes_joined] for rel in data]
-
-        tbl.add_rows(rows)
-
-        return tbl
+    def __relative_rows(data: Optional[List[Relative]]):
+        if data is None:
+            data = []
+        return [[rel.id, rel.name, rel.entity_classes_joined] for rel in data]

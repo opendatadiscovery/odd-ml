@@ -1,1 +1,1 @@
-__version__ = "0.1.0"
+from odd_ml.client import Client
