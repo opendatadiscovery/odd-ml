@@ -20,10 +20,8 @@ jobs:
           poetry-version: 1.1.13
       - name: Install dependencies
         run: poetry install
-      - name: Activate poetry virtual environment
-        run: poetry shell
       - name: Run tests
-        run: pytest .
+        run: poetry run pytest
   lint:
     runs-on: ubuntu-latest
     name: Run black as linter
