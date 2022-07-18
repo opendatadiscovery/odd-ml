@@ -1,4 +1,5 @@
 import datetime
+import textwrap
 from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
@@ -97,7 +98,7 @@ class DataEntity(BaseModel):
         rows = [
             ["id", self.id],
             ["name", self.internal_name or self.external_name],
-            ["oddrn", self.oddrn],
+            ["oddrn", textwrap.shorten(self.oddrn, width=110, placeholder="...")],
             ["type", self.type.name],
             ["entity types", ",".join(self.entity_class_names)],
             ["tags", ", ".join(tag.name for tag in self.tags)],

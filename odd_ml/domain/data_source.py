@@ -47,4 +47,4 @@ class GetDataSourcesResult(BaseModel):
         headers = key_value.keys()
         rows = [[key_value[header](item) for header in headers] for item in self.items]
 
-        show_table(headers, rows)
+        show_table(headers, rows, title="Data sources")
