@@ -34,6 +34,9 @@ class Client:
 
     @storage.setter
     def storage(self, storage: DatasetStorage):
+        if not isinstance(storage, DatasetStorage):
+            raise Exception("Storage must be an instance of DatasetStorage")
+
         self.__storage = storage
 
     def get_data_entities(

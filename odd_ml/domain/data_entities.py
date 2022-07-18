@@ -80,4 +80,4 @@ class DataEntities(BaseModel):
         headers = key_value.keys()
         rows = [[key_value[k](i) for k in headers] for i in self.items]
 
-        show_table(headers, rows)
+        show_table(headers, rows, "Data entities")
