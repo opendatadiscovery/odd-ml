@@ -1,4 +1,5 @@
 from typing import Optional, Tuple
+
 from pydantic import BaseSettings, SecretStr
 from pydantic.env_settings import SettingsSourceCallable
 

@@ -1,10 +1,10 @@
 import pytest
-from odd_ml.helpers.get_s3_path import get_s3_path
 from pydantic_factories import ModelFactory
 
 from odd_ml.domain import DataEntity
 from odd_ml.domain.data_entity import DataEntityType
 from odd_ml.errors import WrongDataEntityTypeError
+from odd_ml.helpers.get_s3_path import get_s3_path
 
 
 class DataEntityFactory(ModelFactory):

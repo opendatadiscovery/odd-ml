@@ -1,19 +1,19 @@
+import json
 from dataclasses import dataclass
 from functools import wraps
-import json
 from typing import Optional, Type, TypeVar
-from pydantic import BaseModel
 
 import requests
-from odd_ml.domain.data_entity import DataEntity
-from odd_ml.domain.data_source import GetDataSourcesResult
+from pydantic import BaseModel
 
 from odd_ml.domain.data_entities import (
+    DataEntities,
     SearchFilterState,
     SearchFormData,
     SearchFormDataFilters,
-    DataEntities,
 )
+from odd_ml.domain.data_entity import DataEntity
+from odd_ml.domain.data_source import GetDataSourcesResult
 
 T = TypeVar("T", bound=BaseModel)
 

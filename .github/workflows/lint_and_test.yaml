@@ -3,8 +3,11 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
     name: Run pytest
     steps:
@@ -22,15 +25,7 @@ jobs:
         run: poetry install
       - name: Run tests
         run: poetry run pytest
-  lint:
-    runs-on: ubuntu-latest
-    name: Run black as linter
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-      - name: Run black
-        uses: psf/black@stable
-        with:
-          options: "--check --verbose"
-          src: "./odd_ml"
-          version: "22.3.0"
+      - name: Run lint
+        run: poetry run black --check --verbose .
+      - name: Run isort
+        run: poetry run isort --profile black --check .

@@ -3,8 +3,8 @@ from typing import Optional
 
 import pandas as pd
 
-from odd_ml.domain.data_entities import DataEntities, DataEntity
 from odd_ml.dataset_storage.dataset_storage import DatasetStorage
+from odd_ml.domain.data_entities import DataEntities, DataEntity
 from odd_ml.domain.data_source import GetDataSourcesResult
 from odd_ml.errors import ProfilerError
 from odd_ml.http.http_client import HttpClient, SearchConfig

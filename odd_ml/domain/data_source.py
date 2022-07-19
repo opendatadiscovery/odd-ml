@@ -4,8 +4,8 @@ from typing import Any, Callable, List, Optional
 
 from prettytable import PrettyTable
 from pydantic import BaseModel
-from odd_ml.domain.namespace import Namespace
 
+from odd_ml.domain.namespace import Namespace
 from odd_ml.helpers.asci_renderer import show_table
 
 
