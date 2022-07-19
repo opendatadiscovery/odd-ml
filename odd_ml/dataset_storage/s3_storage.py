@@ -1,12 +1,9 @@
 import boto3
 import pandas as pd
-
 from s3path import S3Path
 
-
-from odd_ml.domain.aws_config import AwsConfig
 from odd_ml.dataset_storage.dataset_storage import DatasetStorage
-
+from odd_ml.domain.aws_config import AwsConfig
 from odd_ml.domain.data_entity import DataEntity
 from odd_ml.helpers.get_s3_path import get_s3_path
 

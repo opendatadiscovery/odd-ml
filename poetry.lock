@@ -590,7 +590,7 @@ test = ["pytest (>=3.6.0)", "pytest-cov", "mock"]
 name = "isort"
 version = "5.10.1"
 description = "A Python utility / library to sort Python imports."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.1,<4.0"
 
@@ -1694,7 +1694,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8.12,<3.11"
-content-hash = "41aec2995e72483d9bd551e50e5f2582a64991103b83dfe0bc84aacc8626ed65"
+content-hash = "154621597c46e391f233e08300f88411412bf3b6a8c60a3c560bc49cbc33af97"
 
 [metadata.files]
 aiobotocore = [

@@ -2,11 +2,12 @@ from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 
 from pydantic import BaseModel
-from .data_entity import DataEntity, EntityClass
-from .data_source import DataSource
 
 from odd_ml.helpers.asci_renderer import show_table
 from odd_ml.utils import datetime_to_str
+
+from .data_entity import DataEntity, EntityClass
+from .data_source import DataSource
 
 
 class SearchFilterState(BaseModel):
